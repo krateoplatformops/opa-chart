@@ -1,0 +1,30 @@
+{{- $secret := lookup "v1" "Secret" .Release.Namespace (printf "%s-cert" (include "opa.fullname" .)) -}}
+{{- if not $secret -}}
+
+{{- $cn := printf "%s.%s.svc" ( include "opa.fullname" . ) .Release.Namespace }}
+{{- $ca := genCA "opa-admission-ca" 3650 -}}
+{{- $cert := genSignedCert $cn nil (list $cn) 3650 $ca -}}
+
+{{- if .Values.useHttps }}
+{{/* create static secret  */}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ template "opa.fullname" . }}-cert
+  labels:
+    app: {{ template "opa.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+type: Opaque
+data:
+{{- if .Values.generateCerts }}
+  tls.crt: {{ b64enc $cert.Cert }}
+  tls.key: {{ b64enc $cert.Key }}
+  caBundle: {{ b64enc $ca.Cert }}
+{{- else }}
+  tls.crt: {{ b64enc .Values.cert }}
+  tls.key: {{ b64enc .Values.key }}
+{{- end }}
+{{- end }}
+{{- end }}
