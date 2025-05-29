@@ -18,13 +18,13 @@ metadata:
     heritage: "{{ .Release.Service }}"
 type: Opaque
 data:
-{{- if .Values.generateCerts }}
+{{- if .Values.opa.generateCerts }}
   tls.crt: {{ b64enc $cert.Cert }}
   tls.key: {{ b64enc $cert.Key }}
   caBundle: {{ b64enc $ca.Cert }}
 {{- else }}
-  tls.crt: {{ b64enc .Values.cert }}
-  tls.key: {{ b64enc .Values.key }}
+  tls.crt: {{ b64enc .Values.opa.cert }}
+  tls.key: {{ b64enc .Values.opa.key }}
 {{- end }}
 {{- end }}
 {{- end }}
