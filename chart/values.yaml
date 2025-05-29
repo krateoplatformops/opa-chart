@@ -151,7 +151,7 @@ nodeSelector: {}
 volumes:
 - name: policies
   configMap: 
-    name: policies
+    name: finops-moving-window-policy
 
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:
