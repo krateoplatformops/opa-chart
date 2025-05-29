@@ -42,14 +42,24 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Define standard labels for frequently used metadata.
+Common labels
 */}}
-{{- define "opa.labels.standard" -}}
-app: {{ template "opa.fullname" . }}
-chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-release: "{{ .Release.Name }}"
-heritage: "{{ .Release.Service }}"
-{{- end -}}
+{{- define "opa.labels" -}}
+helm.sh/chart: {{ include "opa.chart" . }}
+{{ include "opa.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Selector labels
+*/}}
+{{- define "opa.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "opa.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
 
 {{/*
 Create the name of the service account to use
@@ -97,7 +107,5 @@ admissionregistration.k8s.io/v1beta1
 {{- define "opa.dnsPolicy" -}}
 {{- if .Values.dnsPolicyOverride -}}
 dnsPolicy: "{{ .Values.dnsPolicyOverride }}"
-{{ else if .Values.hostNetwork.enabled -}}
-dnsPolicy: "ClusterFirstWithHostNet"
 {{ end -}}
 {{ end -}}

@@ -16,4 +16,4 @@ keywords:
 - kubernetes
 - security
 name: opa-kube-mgmt
-version: CHART_VERSION
+version: 0.1.0
