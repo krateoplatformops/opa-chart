@@ -239,7 +239,7 @@ mgmt:
     enabled: true
   policies:
     enabled: true
-  # NOTE IF you use these, remember to update the RBAC rules below to allow
+  # NOTE IF you use these, remember to update the RBAC rules to allow
   #      permissions to replicate these things
   replicate:
     cluster: []
