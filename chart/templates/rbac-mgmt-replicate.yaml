@@ -10,7 +10,7 @@ metadata:
     chart: {{ template "opa.chart" . }}
     release: {{ .Release.Name }}
     component: mgmt
-  name: "{{ template "opa.mgmtfullname" . }}-repl"
+  name: "{{ template "opa.mgmtfullname" . }}-repl-{{ .Release.Namespace }}"
 rules:
   {{- with .Values.rbac.extraRules }}
   {{ . | toYaml | nindent 2 }}
@@ -24,11 +24,11 @@ metadata:
     chart: {{ template "opa.chart" . }}
     release: {{ .Release.Name }}
     component: mgmt
-  name: "{{ template "opa.mgmtfullname" . }}-repl"
+  name: "{{ template "opa.mgmtfullname" . }}-repl-{{ .Release.Namespace }}"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: "{{ template "opa.mgmtfullname" . }}-repl"
+  name: "{{ template "opa.mgmtfullname" . }}-repl-{{ .Release.Namespace }}"
 subjects:
   - kind: ServiceAccount
     name: {{ template "opa.serviceAccountName" . }}
