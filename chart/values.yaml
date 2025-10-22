@@ -148,10 +148,15 @@ nodeSelector: {}
 
 
 # Additional volumes on the output Deployment definition.
-volumes: []
+volumes:
+- name: policies
+  configMap: 
+    name: finops-moving-window-policy
 
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
+volumeMounts:
+- name: policies
+  mountPath: /policies
 
 # Extra environment variables to be loaded into the OPA container
 env: {}
@@ -162,18 +167,7 @@ env: {}
 # OPA configuration file. See https://www.openpolicyagent.org/docs/configuration.html for more details.
 opa:
   config:
-    services:
-      ghcr-registry:
-        url: "https://ghcr.io/"
-        type: oci
-    bundles:
-      authz:
-        service: ghcr-registry
-        resource: "ghcr.io/krateoplatformops/finops-moving-window-policy-chart:latest"
-        persist: false
-        polling:
-          min_delay_seconds: 60
-          max_delay_seconds: 120
+    default_decision: /router/result
 
   # Bootstrap policies to load upon startup
   # Define policies in the form of:
