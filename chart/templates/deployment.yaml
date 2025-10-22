@@ -102,7 +102,7 @@ spec:
           - name: KUBERNETES_API_TOKEN
             valueFrom:
               secretKeyRef:
-                name: {{ template "opa.serviceAccountName" .}}-kubernetes-api
+                name: {{ template "opa.serviceAccountName" .}}-kubernetes-api-{{ .Release.Namespace }}
                 key: token
           resources:
 {{ toYaml .Values.resources | indent 12 }}
