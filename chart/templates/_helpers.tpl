@@ -42,13 +42,15 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Common labels
+Common labels, two are hardcoded for compatibility reasons
 */}}
 {{- define "opa.labels" -}}
-{{/* helm.sh/chart: {{ include "opa.chart" . }} */}}
+{{/*helm.sh/chart: {{ include "opa.chart" . }}*/}}
+helm.sh/chart: opa-kube-mgmt-0.1.0
 {{ include "opa.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{/*app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}*/}}
+app.kubernetes.io/version: "9.0.1"
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
