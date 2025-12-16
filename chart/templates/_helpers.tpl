@@ -45,7 +45,7 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "opa.labels" -}}
-helm.sh/chart: {{ include "opa.chart" . }}
+{{/* helm.sh/chart: {{ include "opa.chart" . }} */}}
 {{ include "opa.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
