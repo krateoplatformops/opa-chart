@@ -43,6 +43,7 @@ Create chart name and version as used by the chart label.
 
 {{/*
 Common labels, two are hardcoded for compatibility reasons
+In case of pre-upgrade job in future Krateo release, remove hardcoded labels by uninstalling chart and reinstalling with installer
 */}}
 {{- define "opa.labels" -}}
 {{/*helm.sh/chart: {{ include "opa.chart" . }}*/}}
